@@ -8,42 +8,35 @@ document.addEventListener('DOMContentLoaded', async function () {
     console.log('Домашняя бухгалтерия: Инициализация загрузки...');
 
     try {
-        // Ожидаем загрузки данных с сервера Supabase
-        await loadDataFromSupabase();
+        if (typeof loadDataFromSupabase === 'function') {
+            await loadDataFromSupabase();
+        }
     } catch (e) {
         console.error("Ошибка при загрузке данных:", e);
     }
 
-    try {
-        // Инициализация формы добавления транзакций
-        initTransactionForm();
+    const initFunctions = [
+        {name: 'TransactionForm', fn: window.initTransactionForm},
+        {name: 'AccountForm', fn: window.initAccountForm},
+        {name: 'AddAccountButton', fn: window.initAddAccountButton},
+        {name: 'Filters', fn: window.initFilters},
+        {name: 'Tabs', fn: window.initTabs},
+        {name: 'AnalyticsFilters', fn: window.initAnalyticsFilters},
+        {name: 'UI', fn: window.updateUI},
+        {name: 'ExpenseChart', fn: window.initExpenseChart}
+    ];
 
-        // Инициализация формы добавления счетов
-        initAccountForm();
-
-        // Инициализация кнопки добавления счета
-        initAddAccountButton();
-
-        // Инициализация фильтров
-        initFilters();
-
-        // Инициализация вкладок
-        initTabs();
-
-        // Инициализация фильтров аналитики
-        initAnalyticsFilters();
-
-        // Обновление интерфейса
-        updateUI();
-
-        // Инициализация диаграммы расходов
-        initExpenseChart();
-        
-        console.log("Интерфейс успешно инициализирован");
-    } catch (e) {
-        console.error("Фатальная ошибка инициализации UI:", e);
-        // Резервная инициализация вкладок, чтобы хоть что-то работало
-        initTabs();
+    for (const init of initFunctions) {
+        if (typeof init.fn === 'function') {
+            try {
+                init.fn();
+                console.log(`Успешно: ${init.name}`);
+            } catch (e) {
+                console.error(`Ошибка при инициализации ${init.name}:`, e);
+            }
+        } else {
+            console.error(`Функция ${init.name} не найдена!`);
+        }
     }
 });
 
