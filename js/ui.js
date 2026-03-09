@@ -62,7 +62,8 @@ function renderTransactions(transactions) {
         transactionElement.className = `transaction-item ${transaction.type}`;
 
         // Получаем информацию о счете
-        const account = getAllAccounts().find(acc => acc.id === transaction.accountId);
+        const accId = transaction.account_id || transaction.accountId;
+        const account = getAllAccounts().find(acc => acc.id === accId);
         const accountName = account ? account.name : 'Неизвестный счет';
 
         // Преобразование даты в формат DD.MM.YYYY
@@ -457,7 +458,8 @@ function renderAnalyticsTransactions(transactions) {
         const item = document.createElement('div');
         item.className = `transaction-item ${transaction.type}`;
         
-        const account = getAllAccounts().find(acc => acc.id === transaction.accountId);
+        const accId = transaction.account_id || transaction.accountId;
+        const account = getAllAccounts().find(acc => acc.id === accId);
         const accountName = account ? account.name : 'Неизвестный счет';
         const date = new Date(transaction.date).toLocaleDateString('ru-RU');
 
@@ -550,7 +552,7 @@ function editTransactionUI(id) {
     document.getElementById('operation-type').value = transaction.type;
     document.getElementById('amount').value = transaction.amount;
     document.getElementById('category').value = transaction.category;
-    document.getElementById('account-select').value = transaction.accountId;
+    document.getElementById('account-select').value = transaction.account_id || transaction.accountId;
     document.getElementById('description').value = transaction.description || '';
     document.getElementById('date').value = transaction.date;
 
