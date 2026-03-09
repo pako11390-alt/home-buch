@@ -7,32 +7,44 @@ let expensesChart = null;
 document.addEventListener('DOMContentLoaded', async function () {
     console.log('Домашняя бухгалтерия: Инициализация загрузки...');
 
-    // Ожидаем загрузки данных с сервера Supabase
-    await loadDataFromSupabase();
+    try {
+        // Ожидаем загрузки данных с сервера Supabase
+        await loadDataFromSupabase();
+    } catch (e) {
+        console.error("Ошибка при загрузке данных:", e);
+    }
 
-    // Инициализация формы добавления транзакций
-    initTransactionForm();
+    try {
+        // Инициализация формы добавления транзакций
+        initTransactionForm();
 
-    // Инициализация формы добавления счетов
-    initAccountForm();
+        // Инициализация формы добавления счетов
+        initAccountForm();
 
-    // Инициализация кнопки добавления счета
-    initAddAccountButton();
+        // Инициализация кнопки добавления счета
+        initAddAccountButton();
 
-    // Инициализация фильтров
-    initFilters();
+        // Инициализация фильтров
+        initFilters();
 
-    // Инициализация вкладок
-    initTabs();
+        // Инициализация вкладок
+        initTabs();
 
-    // Инициализация фильтров аналитики
-    initAnalyticsFilters();
+        // Инициализация фильтров аналитики
+        initAnalyticsFilters();
 
-    // Обновление интерфейса
-    updateUI();
+        // Обновление интерфейса
+        updateUI();
 
-    // Инициализация диаграммы расходов
-    initExpenseChart();
+        // Инициализация диаграммы расходов
+        initExpenseChart();
+        
+        console.log("Интерфейс успешно инициализирован");
+    } catch (e) {
+        console.error("Фатальная ошибка инициализации UI:", e);
+        // Резервная инициализация вкладок, чтобы хоть что-то работало
+        initTabs();
+    }
 });
 
 // Функция инициализации диаграммы расходов
