@@ -198,7 +198,7 @@ function initTransactionForm() {
             type: type,
             amount: parseFloat(amount),
             category: category,
-            accountId: accountId,
+            account_id: accountId,
             description: description,
             date: date
         };
@@ -276,7 +276,7 @@ function initAccountForm() {
         const account = {
             name: name,
             type: type,
-            initialBalance: initialBalance
+            initial_balance: initialBalance
         };
 
         if (currentEditingAccountId) {
